@@ -37,9 +37,27 @@ if SERVER then -- Our serverside stuff
 				
 				print(ply:Nick().." has been given a loadout!")
 				
+			for _, wep in pairs(ply:GetWeapons()) do
+				if wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL or wep.Kind == WEAPON_NADE then
+                ply:StripWeapon(wep:GetClass())
+				end
+			end
+				
+				
 				ply:Give( p )
 				ply:Give( s )
 				ply:Give( g )
+				
+				if p == "weapon_zm_shotgun" then ply:SetAmmo(24, "Buckshot", false ) end
+				if p == "weapon_zm_mac10" then ply:SetAmmo(60, "SMG1", false ) end
+				if p == "weapon_zm_sledge" then ply:SetAmmo(0, "AirboatGun", false ) end
+				if p == "weapon_ttt_m16" then ply:SetAmmo(60, "Pistol", false ) end
+				if p == "weapon_zm_rifle" then ply:SetAmmo(20, "357", false ) end
+				
+				
+				if s == "weapon_zm_revolver" then ply:SetAmmo (36, "AlyxGun", false) end 
+				if s == "weapon_ttt_glock" then ply:SetAmmo (60, "Pistol", false) end 
+				if s == "weapon_zm_pistol" then ply:SetAmmo (60, "Pistol", false) end 
 				
 				net.Start("loadout_received")
 				net.Send(ply)
