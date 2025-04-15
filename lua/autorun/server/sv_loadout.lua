@@ -77,6 +77,29 @@ if not grenades then
 	ErrorNoHalt("[Error] Error in data/loadout_menu/grenades.txt\n")
 end
 
+local function giveWeapon(ply, weaponClass)
+	local weapon = weapons.Get(weaponClass)
+
+	if weapon == nil then 
+		print("Can't find loadout weapon " .. weaponClass)
+		return
+	end
+	
+	for _, wep in pairs(ply:GetWeapons()) do
+		if wep.Kind == weapon.Kind then
+			if wep.AllowDrop then
+				ply:StripWeapon(wep:GetClass())
+			else
+				print(ply:Nick() .. " can't drop their weapon, skipping from loadout: " .. weaponClass)
+				return
+			end
+		end
+	end
+
+	ply:Give(weaponClass)
+	ply:SetAmmo(weapon.Primary.ClipMax, weapon.Primary.Ammo)
+end
+
 -- Send config to connecting players
 hook.Add("PlayerSpawn", "Loadout_Datafiles_Send", function(ply)
 	net.Start("loadout_config")
@@ -117,37 +140,12 @@ hook.Add("TTTBeginRound", "loadout_distribute", function()
 			local p = ply:GetPData("TTTPrimary", "")
 			local s = ply:GetPData("TTTSecondary", "")
 			local g = ply:GetPData("TTTGrenade", "")
-
+			
+			giveWeapon(ply, p)
+			giveWeapon(ply, s)
+			giveWeapon(ply, g)
+			
 			print(ply:Nick() .. " has been given a loadout!")
-
-			if p ~= "" then
-				for _, wep in pairs(ply:GetWeapons()) do
-					if wep.Kind == WEAPON_HEAVY then
-						ply:StripWeapon(wep:GetClass())
-					end
-					ply:Give(p)
-					ply:SetAmmo(weapons.Get(p).Primary.ClipMax, weapons.Get(p).Primary.Ammo)
-				end
-			end
-
-			if s ~= "" then
-				for _, wep in pairs(ply:GetWeapons()) do
-					if wep.Kind == WEAPON_PISTOL then
-						ply:StripWeapon(wep:GetClass())
-					end
-					ply:Give(s)
-					ply:SetAmmo(weapons.Get(s).Primary.ClipMax, weapons.Get(s).Primary.Ammo)
-				end
-			end
-
-			if g ~= "" then
-				for _, wep in pairs(ply:GetWeapons()) do
-					if wep.Kind == WEAPON_NADE then
-						ply:StripWeapon(wep:GetClass())
-					end
-					ply:Give(g)
-				end
-			end
 
 			net.Start("loadout_received")
 			net.WriteString(GetConVar("loadout_chatCmd"):GetString())

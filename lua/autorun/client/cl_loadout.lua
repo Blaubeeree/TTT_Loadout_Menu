@@ -1,7 +1,7 @@
 ---- TTT Weapon Loadouts Clientside ----
 -- Author: Blaubeeree
 
-local version = "25/08/2019"
+local version = "2025/04/15"
 local menuOpen = false
 
 net.Receive("loadout_config", function(len, client)
@@ -206,7 +206,7 @@ net.Receive("loadout_config", function(len, client)
 	end)
 
 	concommand.Add("loadout_version", function(client)
-		print("**** Exho's Weapon Loadout Addon (edited by Blaubeeree)****")
+		print("**** Blaubeeree's Weapon Loadout Addon ****")
 		print("Version " .. version)
 	end)
 
