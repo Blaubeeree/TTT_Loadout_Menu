@@ -1,5 +1,11 @@
-TTT_Loadout_Menu
-================
-Created by Exho on August 15th, 2014 and initially coded in 2 hours. Its my clone of a Coderhire addon that I saw. 
+# TTT_Loadout_Menu (with configfiles)
 
-Almost entirely rewritten on 7/12/15 to just work better. Added scrollers for more weapons as well as reducing boilerplate code on the client and improving the serverside code as well.
+This is an edited version of the [loadout menu from Exho](https://github.com/Exho1/TTT_Loadout_Menu).
+
+Changes:
+
+- added files to edit the weapons without extracting the addon (the files are located in /garrysmod/data/loadout_menu/)
+- you spawn with ammo
+- fixed some bugs
+
+Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=1740352246
